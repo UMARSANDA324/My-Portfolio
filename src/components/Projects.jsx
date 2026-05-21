@@ -106,7 +106,7 @@ const Projects = () => {
 
                 <div className="flex flex-wrap gap-4 mt-auto">
                   <Button asChild size="lg" className="rounded-full px-8 shadow-lg shadow-primary/20 bg-amber-600 hover:bg-amber-700 text-white border-none">
-                    <a href="#" target="_blank" rel="noopener noreferrer">
+                    <a href="https://autatajiri.netlify.app" target="_blank" rel="noopener noreferrer">
                       <ExternalLink className="mr-2 h-5 w-5" /> Live Demo
                     </a>
                   </Button>
@@ -200,10 +200,10 @@ const Projects = () => {
                 <p className="text-gray-300 text-lg leading-relaxed mb-6">
                   With PowerSense, users now receive instant updates on power status right on their devices. No more guessing—just clear, real-time tracking of the grid.
                 </p>
-
+ 
                 <div className="flex flex-wrap gap-2 mb-8">
                   {['React', 'Node.js', 'Express', 'MongoDB', 'Tailwind CSS'].map((tech) => (
-                    <Badge key={tech} variant="secondary" className="bg-slate-700/50 text-slate-300 border-white/5">
+                    <Badge key={tech} variant="secondary" className="bg-slate-100 text-slate-600 border-slate-200">
                       {tech}
                     </Badge>
                   ))}
@@ -214,7 +214,7 @@ const Projects = () => {
                       <ExternalLink className="mr-2 h-4 w-4" /> Live Demo
                     </a>
                   </Button>
-                  <Button asChild size="lg" variant="outline" className="rounded-full bg-slate-800 border-white/10 hover:bg-slate-700 text-white">
+                  <Button asChild size="lg" variant="outline" className="rounded-full bg-white border-slate-200 hover:bg-slate-50 text-slate-800 shadow-md shadow-slate-100">
                     <a href="https://github.com/UMARSANDA324" target="_blank" rel="noopener noreferrer">
                       <Github className="mr-2 h-4 w-4" /> Source
                     </a>

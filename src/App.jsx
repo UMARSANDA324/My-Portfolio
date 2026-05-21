@@ -5,6 +5,7 @@ import Skills from './components/Skills';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import AIAssistant from './components/AIAssistant';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Contact />
       </main>
       <Footer />
+      <AIAssistant />
     </div>
   );
 }

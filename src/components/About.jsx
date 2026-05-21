@@ -13,7 +13,7 @@ const WhatsAppIcon = ({ size = 24, className = "" }) => (
 const About = () => {
   return (
     <section id="about" className="py-24 bg-slate-900/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -26,7 +26,7 @@ const About = () => {
             About <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">Me</span>
           </h2>
         </motion.div>
-
+ 
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -44,7 +44,7 @@ const About = () => {
               />
             </Card>
           </motion.div>
-
+ 
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -63,7 +63,7 @@ const About = () => {
                 My goal is to become a problem solver through software, inspired by innovators who create meaningful change. I believe in creating technology that makes a genuine impact on people's lives and empowering businesses like <span className="text-primary font-bold">AHASAS Construction</span> to thrive digitally.
               </p>
             </div>
-
+ 
             <div className="grid sm:grid-cols-2 gap-6">
               {[
                 { icon: MapPin, text: 'Kano State, Nigeria', label: 'Location' },
