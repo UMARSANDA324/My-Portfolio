@@ -5,6 +5,7 @@ import communityFrustrationImg from '../images/community_frustration.png';
 import powersenseTrackingImg from '../images/powersense_tracking.png';
 import organizedSystemImg from '../images/organized_system.png';
 import ahasasMockupImg from '../images/ahasas_mockup.png';
+import autaTajiriMockupImg from '../images/auta_tajiri_mockup.png';
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
 import { Badge } from './ui/badge';
@@ -43,7 +44,7 @@ const Projects = () => {
             <div className="w-16 h-1 bg-primary mx-auto rounded-full" />
           </motion.div>
 
-          <Card className="bg-slate-800/50 backdrop-blur-sm border-white/5 shadow-2xl overflow-hidden group">
+          <Card className="bg-slate-800/50 backdrop-blur-sm border-white/5 shadow-2xl overflow-hidden group mb-12">
             <div className="grid lg:grid-cols-2 gap-0">
               <div className="relative overflow-hidden bg-slate-900 flex items-center justify-center p-8 lg:p-12">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent opacity-50"></div>
@@ -62,10 +63,16 @@ const Projects = () => {
                   <p className="text-gray-300 text-lg leading-relaxed mb-6">
                     A premium, real-world corporate website engineered for a leading Nigerian construction and infrastructure company. Designed to showcase multi-million dollar projects, attract high-end clients, and build trust through a modern digital presence. Features include a dynamic portfolio, animated sections, and mobile-first architecture.
                   </p>
+                  
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {['React', 'Tailwind CSS', 'shadcn/ui', 'Framer Motion', 'EmailJS'].map((tech) => (
+                      <Badge key={tech} variant="secondary" className="bg-slate-700/50 text-slate-300 border-white/5">
+                        {tech}
+                      </Badge>
+                    ))}
+                  </div>
                 </div>
                 
-
-
                 <div className="flex flex-wrap gap-4 mt-auto">
                   <Button asChild size="lg" className="rounded-full px-8 shadow-lg shadow-primary/20">
                     <a href="http://ahasasconstructionventureslimited.com.ng" target="_blank" rel="noopener noreferrer">
@@ -74,6 +81,52 @@ const Projects = () => {
                   </Button>
                 </div>
               </CardContent>
+            </div>
+          </Card>
+
+          {/* AUTA TAJIRI - REAL ESTATE PROJECT */}
+          <Card className="bg-slate-800/50 backdrop-blur-sm border-white/5 shadow-2xl overflow-hidden group">
+            <div className="grid lg:grid-cols-2 gap-0">
+              <CardContent className="p-8 lg:p-12 flex flex-col justify-center order-2 lg:order-1">
+                <div className="mb-6">
+                  <Badge className="bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 mb-4 border-amber-500/20">Real Estate & Property</Badge>
+                  <h3 className="text-3xl font-bold text-white mb-4 leading-tight">Auta Tajiri Real Estate</h3>
+                  <p className="text-gray-300 text-lg leading-relaxed mb-6">
+                    A modern real estate platform designed for Abdulshahid Abdullahi ("Auta Tajiri"). This premium digital identity focuses on high-ticket land sales, house acquisitions, and property rentals in Kano State, Nigeria. Built to build trust and showcase years of industry expertise through a world-class user experience.
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {['React', 'Vite', 'Tailwind CSS', 'shadcn/ui', 'Framer Motion'].map((tech) => (
+                      <Badge key={tech} variant="secondary" className="bg-slate-700/50 text-slate-300 border-white/5">
+                        {tech}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-4 mt-auto">
+                  <Button asChild size="lg" className="rounded-full px-8 shadow-lg shadow-primary/20 bg-amber-600 hover:bg-amber-700 text-white border-none">
+                    <a href="https://autatajiri.netlify.app" target="_blank" rel="noopener noreferrer">
+                      <ExternalLink className="mr-2 h-5 w-5" /> Live Demo
+                    </a>
+                  </Button>
+                  <Button asChild size="lg" variant="outline" className="rounded-full px-8 bg-slate-800 border-white/10 hover:bg-slate-700 text-white">
+                    <a href="https://github.com/UMARSANDA324" target="_blank" rel="noopener noreferrer">
+                      <Github className="mr-2 h-5 w-5" /> GitHub
+                    </a>
+                  </Button>
+                </div>
+              </CardContent>
+              <div className="relative overflow-hidden bg-slate-900 flex items-center justify-center p-8 lg:p-12 order-1 lg:order-2">
+                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/20 to-transparent opacity-50"></div>
+                <motion.img 
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.5 }}
+                  src={autaTajiriMockupImg} 
+                  alt="Auta Tajiri Real Estate" 
+                  className="w-full h-auto rounded-xl shadow-2xl relative z-10 border border-white/10"
+                />
+              </div>
             </div>
           </Card>
         </div>
@@ -147,13 +200,21 @@ const Projects = () => {
                 <p className="text-gray-300 text-lg leading-relaxed mb-6">
                   With PowerSense, users now receive instant updates on power status right on their devices. No more guessing—just clear, real-time tracking of the grid.
                 </p>
+ 
+                <div className="flex flex-wrap gap-2 mb-8">
+                  {['React', 'Node.js', 'Express', 'MongoDB', 'Tailwind CSS'].map((tech) => (
+                    <Badge key={tech} variant="secondary" className="bg-slate-100 text-slate-600 border-slate-200">
+                      {tech}
+                    </Badge>
+                  ))}
+                </div>
                 <div className="flex gap-4">
                   <Button asChild size="lg" className="rounded-full shadow-lg shadow-primary/20">
                     <a href="https://powersense-2.onrender.com" target="_blank" rel="noopener noreferrer">
                       <ExternalLink className="mr-2 h-4 w-4" /> Live Demo
                     </a>
                   </Button>
-                  <Button asChild size="lg" variant="outline" className="rounded-full bg-slate-800 border-white/10 hover:bg-slate-700 text-white">
+                  <Button asChild size="lg" variant="outline" className="rounded-full bg-white border-slate-200 hover:bg-slate-50 text-slate-800 shadow-md shadow-slate-100">
                     <a href="https://github.com/UMARSANDA324" target="_blank" rel="noopener noreferrer">
                       <Github className="mr-2 h-4 w-4" /> Source
                     </a>

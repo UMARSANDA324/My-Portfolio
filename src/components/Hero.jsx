@@ -39,7 +39,9 @@ const Hero = () => {
   }, [text, isDeleting, loopNum]);
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center pt-24 pb-16 relative bg-background overflow-hidden">
+    <section id="home" className="min-h-screen flex items-center justify-center pt-24 pb-16 relative overflow-hidden bg-background">
+      {/* Grid Pattern */}
+      <div className="absolute inset-0 bg-grid-pattern opacity-[0.15] pointer-events-none" />
       {/* Background Gradients */}
       <div className="absolute top-0 inset-x-0 h-full overflow-hidden pointer-events-none">
         <div className="absolute -top-1/2 -left-1/4 w-[1000px] h-[1000px] rounded-full bg-primary/10 blur-[120px] mix-blend-screen opacity-50" />
@@ -78,7 +80,7 @@ const Hero = () => {
           >
             <span className="relative flex h-3 w-3">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-accent animate-pulse shadow-[0_0_8px_#22c55e]"></span>
             </span>
             <span className="text-gray-200 text-sm font-medium tracking-wide">Available for hire</span>
           </motion.div>
