@@ -56,11 +56,11 @@ const Projects = () => {
                   className="w-full h-auto rounded-xl shadow-2xl relative z-10 border border-white/10"
                 />
               </div>
-              <CardContent className="p-8 lg:p-12 flex flex-col justify-center">
+              <CardContent className="p-6 sm:p-8 lg:p-12 flex flex-col justify-center">
                 <div className="mb-6">
-                  <Badge className="bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 mb-4 border-blue-500/20">Corporate Construction</Badge>
-                  <h3 className="text-3xl font-bold text-white mb-4 leading-tight">AHASAS Construction Ventures Limited</h3>
-                  <p className="text-gray-300 text-lg leading-relaxed mb-6">
+                  <Badge className="bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 mb-4 border-blue-500/20 whitespace-normal text-left h-auto py-1">Corporate Construction</Badge>
+                  <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4 leading-tight break-words whitespace-normal">AHASAS Construction Ventures Limited</h3>
+                  <p className="text-gray-300 text-base sm:text-lg leading-relaxed mb-6 break-words whitespace-normal">
                     A premium, real-world corporate website engineered for a leading Nigerian construction and infrastructure company. Designed to showcase multi-million dollar projects, attract high-end clients, and build trust through a modern digital presence. Features include a dynamic portfolio, animated sections, and mobile-first architecture.
                   </p>
                   
@@ -87,11 +87,11 @@ const Projects = () => {
           {/* AUTA TAJIRI - REAL ESTATE PROJECT */}
           <Card className="bg-slate-800/50 backdrop-blur-sm border-white/5 shadow-2xl overflow-hidden group">
             <div className="grid lg:grid-cols-2 gap-0">
-              <CardContent className="p-8 lg:p-12 flex flex-col justify-center order-2 lg:order-1">
+              <CardContent className="p-6 sm:p-8 lg:p-12 flex flex-col justify-center order-2 lg:order-1">
                 <div className="mb-6">
-                  <Badge className="bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 mb-4 border-amber-500/20">Real Estate & Property</Badge>
-                  <h3 className="text-3xl font-bold text-white mb-4 leading-tight">Auta Tajiri Real Estate</h3>
-                  <p className="text-gray-300 text-lg leading-relaxed mb-6">
+                  <Badge className="bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 mb-4 border-amber-500/20 whitespace-normal text-left h-auto py-1">Real Estate & Property</Badge>
+                  <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4 leading-tight break-words whitespace-normal">Auta Tajiri Real Estate</h3>
+                  <p className="text-gray-300 text-base sm:text-lg leading-relaxed mb-6 break-words whitespace-normal">
                     A modern real estate platform designed for Abdulshahid Abdullahi ("Auta Tajiri"). This premium digital identity focuses on high-ticket land sales, house acquisitions, and property rentals in Kano State, Nigeria. Built to build trust and showcase years of industry expertise through a world-class user experience.
                   </p>
                   

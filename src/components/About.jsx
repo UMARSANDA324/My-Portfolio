@@ -71,13 +71,13 @@ const About = () => {
                 { icon: WhatsAppIcon, text: '09039133907', label: 'WhatsApp' },
                 { icon: Phone, text: '09048166185', label: 'Phone' }
               ].map((item, i) => (
-                <div key={i} className="flex items-start gap-4 p-4 rounded-xl bg-slate-800/50 border border-white/5">
-                  <div className="p-3 rounded-lg bg-primary/10 text-primary">
-                    <item.icon size={20} />
+                <div key={i} className="flex items-start gap-3 sm:gap-4 p-4 rounded-xl bg-slate-800/50 border border-white/5 overflow-hidden">
+                  <div className="p-2 sm:p-3 rounded-lg bg-primary/10 text-primary flex-shrink-0">
+                    <item.icon className="w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
-                  <div>
-                    <p className="text-sm text-gray-400 font-medium mb-1">{item.label}</p>
-                    <p className="text-gray-200 font-medium">{item.text}</p>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs sm:text-sm text-gray-400 font-medium mb-1">{item.label}</p>
+                    <p className="text-sm sm:text-base text-gray-200 font-medium break-words whitespace-normal">{item.text}</p>
                   </div>
                 </div>
               ))}

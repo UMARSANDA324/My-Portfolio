@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, CheckCircle2, X } from 'lucide-react';
-import emailjs from '@emailjs/browser';
+import { sendContactEmail } from '../lib/email';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
@@ -15,6 +15,10 @@ const WhatsAppIcon = ({ size = 24, className = "" }) => (
 );
 
 const Contact = () => {
+  const emailServiceId = import.meta.env.VITE_EMAILJS_CONTACT_SERVICE_ID;
+  const emailTemplateId = import.meta.env.VITE_EMAILJS_CONTACT_TEMPLATE_ID;
+  const emailPublicKey = import.meta.env.VITE_EMAILJS_CONTACT_PUBLIC_KEY;
+  const isEmailConfigured = Boolean(emailServiceId && emailTemplateId && emailPublicKey);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -24,6 +28,12 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitError(false);
+    if (!isEmailConfigured) {
+      console.warn('Contact form blocked: EmailJS credentials not configured.');
+      setSubmitError(true);
+      setIsSubmitting(false);
+      return;
+    }
     
     try {
       const templateParams = {
@@ -34,12 +44,7 @@ const Contact = () => {
         message: formData.message,
       };
 
-      await emailjs.send(
-        'service_mrerrnl', 
-        'template_lqc1kos', 
-        templateParams,
-        { publicKey: 'QbmMbjomx6fc_Fz1W' }
-      );
+      await sendContactEmail(templateParams);
 
       setSubmitSuccess(true);
       setFormData({ name: '', email: '', message: '' });
@@ -84,27 +89,27 @@ const Contact = () => {
             transition={{ duration: 0.6 }}
             className="lg:col-span-2 space-y-8"
           >
-            <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-white/5">
-              <h3 className="text-2xl font-bold mb-8 text-white">Contact Information</h3>
-              <div className="space-y-8">
+            <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-white/5 overflow-hidden">
+              <h3 className="text-xl sm:text-2xl font-bold mb-6 sm:mb-8 text-white">Contact Information</h3>
+              <div className="space-y-6 sm:space-y-8">
                 {[
                   { icon: Mail, title: 'Email', text: 'um218194@gmail.com', link: 'mailto:um218194@gmail.com' },
                   { icon: WhatsAppIcon, title: 'WhatsApp', text: '09039133907', link: 'https://wa.me/2349039133907' },
                   { icon: Phone, title: 'Phone', text: '09048166185', link: 'tel:09048166185' },
                   { icon: MapPin, title: 'Location', text: 'Kano State, Nigeria', link: null }
                 ].map((item, i) => (
-                  <div key={i} className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 text-primary">
-                      <item.icon size={24} />
+                  <div key={i} className="flex items-start gap-3 sm:gap-4">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 text-primary">
+                      <item.icon className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
-                    <div>
-                      <h4 className="text-sm font-semibold text-gray-400 mb-1">{item.title}</h4>
+                    <div className="min-w-0 flex-1">
+                      <h4 className="text-xs sm:text-sm font-semibold text-gray-400 mb-1">{item.title}</h4>
                       {item.link ? (
-                        <a href={item.link} className="text-lg text-white hover:text-primary transition-colors font-medium">
+                        <a href={item.link} className="block text-sm sm:text-lg text-white hover:text-primary transition-colors font-medium break-words whitespace-normal">
                           {item.text}
                         </a>
                       ) : (
-                        <p className="text-lg text-white font-medium">{item.text}</p>
+                        <p className="block text-sm sm:text-lg text-white font-medium break-words whitespace-normal">{item.text}</p>
                       )}
                     </div>
                   </div>
@@ -120,9 +125,14 @@ const Contact = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="lg:col-span-3"
           >
-            <Card className="bg-slate-800/80 backdrop-blur-sm border-white/5 shadow-2xl p-8 lg:p-10">
-              <h3 className="text-2xl font-bold mb-8 text-white">Send me a message</h3>
+            <Card className="bg-slate-800/80 backdrop-blur-sm border-white/5 shadow-2xl p-6 sm:p-8 lg:p-10 overflow-hidden">
+              <h3 className="text-xl sm:text-2xl font-bold mb-6 sm:mb-8 text-white break-words">Send me a message</h3>
               <form onSubmit={handleSubmit} className="space-y-6">
+                {!isEmailConfigured && (
+                  <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="p-4 rounded-xl bg-yellow-500/10 border border-yellow-500/20 text-yellow-300 flex items-center gap-3">
+                    <span className="font-medium">Contact form is disabled because EmailJS credentials are not configured. Set VITE_EMAILJS_CONTACT_SERVICE_ID, VITE_EMAILJS_CONTACT_TEMPLATE_ID, and VITE_EMAILJS_CONTACT_PUBLIC_KEY to enable sending.</span>
+                  </motion.div>
+                )}
                 {submitSuccess && (
                   <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="p-4 rounded-xl bg-green-500/10 border border-green-500/20 text-green-400 flex items-center gap-3">
                     <CheckCircle2 size={20} />
@@ -140,20 +150,20 @@ const Contact = () => {
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label htmlFor="name" className="text-sm font-medium text-gray-300">Name</label>
-                    <Input id="name" name="name" value={formData.name} onChange={handleChange} required placeholder="John Doe" className="bg-slate-900/50 border-white/10 text-white placeholder:text-gray-500 h-14" />
+                    <Input id="name" name="name" value={formData.name} onChange={handleChange} required placeholder="John Doe" disabled={!isEmailConfigured} className="bg-slate-900/50 border-white/10 text-white placeholder:text-gray-500 h-14" />
                   </div>
                   <div className="space-y-2">
                     <label htmlFor="email" className="text-sm font-medium text-gray-300">Email</label>
-                    <Input id="email" name="email" type="email" value={formData.email} onChange={handleChange} required placeholder="john@example.com" className="bg-slate-900/50 border-white/10 text-white placeholder:text-gray-500 h-14" />
+                    <Input id="email" name="email" type="email" value={formData.email} onChange={handleChange} required placeholder="john@example.com" disabled={!isEmailConfigured} className="bg-slate-900/50 border-white/10 text-white placeholder:text-gray-500 h-14" />
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <label htmlFor="message" className="text-sm font-medium text-gray-300">Message</label>
-                  <Textarea id="message" name="message" value={formData.message} onChange={handleChange} required placeholder="Tell me about your project..." className="bg-slate-900/50 border-white/10 text-white placeholder:text-gray-500 min-h-[160px] text-base p-4" />
+                  <Textarea id="message" name="message" value={formData.message} onChange={handleChange} required placeholder="Tell me about your project..." disabled={!isEmailConfigured} className="bg-slate-900/50 border-white/10 text-white placeholder:text-gray-500 min-h-[160px] text-base p-4" />
                 </div>
 
-                <Button type="submit" disabled={isSubmitting} size="lg" className="w-full h-14 text-lg rounded-xl shadow-lg shadow-primary/20">
+                <Button type="submit" disabled={isSubmitting || !isEmailConfigured} size="lg" className="w-full h-14 text-lg rounded-xl shadow-lg shadow-primary/20">
                   {isSubmitting ? (
                     <>
                       <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-3" />

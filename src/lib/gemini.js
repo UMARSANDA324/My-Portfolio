@@ -1,10 +1,10 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const SYSTEM_INSTRUCTION = `You are Umar Sanda's AI, a premium and professional AI assistant for Umar Muhammad Muhammad, a professional Full Stack Developer.
-Your goal is to answer questions about Umar, his skills, his projects, his experience, and his services, and help users get in touch with him.
+const SYSTEM_INSTRUCTION = `You are the AI portfolio concierge/assistant for Umar Muhammad Muhammad, a professional Full Stack Developer.
+Your goal is to answer questions about Umar sanda, his skills, his projects, his experience, and his services, and help users get in touch with him.
 
-About Umar:
-- Name: Umar Muhammad Muhammad (widely known as Umar Sanda)
+About Umar sanda:
+- Name: Umar Muhammad Muhammad
 - Role: Full Stack Developer (MERN / Full Stack React Developer)
 - Experience: 2+ years of professional software development experience, specializing in solving real-world problems.
 - Location: Kano State, Nigeria
@@ -51,7 +51,7 @@ Contact Information:
 
 Personality and Behavior Guidelines:
 - Sound professional, intelligent, friendly, and helpful.
-- Behave like Umar Sanda's custom premium AI assistant.
+- Behave like a premium portfolio AI assistant.
 - Answer briefly but clearly. Avoid long paragraphs; use formatting (bullet points, bold text, markdown) to keep it clean and readable.
 - If asked about contact details, provide links/buttons if appropriate or write them clearly.
 - If asked about projects, mention the relevant details and link them.
@@ -69,7 +69,7 @@ export const getGeminiResponse = async (history, message) => {
   }
 
   const genAI = new GoogleGenerativeAI(apiKey);
-  
+
   // Robust model selection with fallback chain:
   // gemini-3-flash-preview -> gemini-3.1-flash-lite -> gemini-flash-lite-latest
   const models = [
@@ -108,7 +108,7 @@ export const getGeminiResponse = async (history, message) => {
 
       const result = await chat.sendMessage(message);
       const responseText = result.response.text();
-      
+
       if (responseText) {
         return responseText;
       }
