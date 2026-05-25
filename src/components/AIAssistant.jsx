@@ -138,6 +138,7 @@ const SimulatedTypingMessage = ({ text, onComplete }) => {
 };
 
 const AIAssistant = () => {
+  const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY;
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -195,6 +196,12 @@ const AIAssistant = () => {
 
     setError(null);
     if (!textToSend) setInput("");
+
+    // Prevent attempting to call Gemini when API key is not configured.
+    if (!geminiApiKey) {
+      setError('AI Assistant is disabled: VITE_GEMINI_API_KEY is not configured.');
+      return;
+    }
 
     // Add user message
     const userMsgId = `user-${Date.now()}`;

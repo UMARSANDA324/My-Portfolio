@@ -163,11 +163,11 @@ const Skills = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: idx * 0.04 }}
                   >
-                    <Card className="p-6 bg-slate-800/80 hover:bg-slate-800/90 border border-white/5 hover:border-primary/50 backdrop-blur-sm transition-all duration-300 group hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-primary/20 flex items-center gap-4">
-                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-500 group-hover:rotate-6 group-hover:scale-110 ${skill.bg} ${skill.color}`}>
-                        <SkillIcon size={22} />
+                    <Card className="p-4 sm:p-6 bg-slate-800/80 hover:bg-slate-800/90 border border-white/5 hover:border-primary/50 backdrop-blur-sm transition-all duration-300 group hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-primary/20 flex items-center gap-3 sm:gap-4 overflow-hidden">
+                      <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-500 group-hover:rotate-6 group-hover:scale-110 ${skill.bg} ${skill.color}`}>
+                        <SkillIcon className="w-5 h-5 sm:w-6 sm:h-6" />
                       </div>
-                      <span className="text-sm sm:text-base font-bold text-gray-200 group-hover:text-white transition-colors duration-300">
+                      <span className="text-xs sm:text-sm md:text-base font-bold text-gray-200 group-hover:text-white transition-colors duration-300 break-words whitespace-normal flex-1 leading-tight">
                         {skill.name}
                       </span>
                     </Card>
