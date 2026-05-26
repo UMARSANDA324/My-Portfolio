@@ -9,7 +9,7 @@ import AIAssistant from './components/AIAssistant';
 
 function App() {
   return (
-    <div className="min-h-screen bg-background text-white selection:bg-primary/30">
+    <div className="min-h-screen bg-background text-white selection:bg-primary/30 overflow-x-hidden flex flex-col relative w-full">
       <Navbar />
       <main>
         <Hero />

@@ -138,7 +138,6 @@ const SimulatedTypingMessage = ({ text, onComplete }) => {
 };
 
 const AIAssistant = () => {
-  const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY;
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -197,11 +196,7 @@ const AIAssistant = () => {
     setError(null);
     if (!textToSend) setInput("");
 
-    // Prevent attempting to call Gemini when API key is not configured.
-    if (!geminiApiKey) {
-      setError('AI Assistant is disabled: VITE_GEMINI_API_KEY is not configured.');
-      return;
-    }
+
 
     // Add user message
     const userMsgId = `user-${Date.now()}`;
@@ -277,7 +272,7 @@ const AIAssistant = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.9 }}
             transition={{ duration: 0.3, type: "spring", stiffness: 300, damping: 25 }}
-            className="absolute bottom-16 right-0 w-[92vw] sm:w-[420px] h-[580px] bg-slate-900/95 backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+            className="absolute bottom-16 right-0 w-[calc(100vw-3rem)] sm:w-[420px] h-[580px] max-h-[calc(100vh-8rem)] bg-slate-900/95 backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
           >
             {/* Header */}
             <div className="px-5 py-4 bg-slate-800/80 border-b border-white/5 flex items-center justify-between">

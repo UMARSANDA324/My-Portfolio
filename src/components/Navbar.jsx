@@ -20,12 +20,27 @@ const Navbar = () => {
     { name: 'Contact', href: '#contact' }
   ];
 
+  const handleNavClick = (e, href) => {
+    e.preventDefault();
+    setIsOpen(false);
+    
+    // Short delay to allow menu animation to start before scrolling
+    setTimeout(() => {
+      const targetId = href.replace('#', '');
+      const elem = document.getElementById(targetId);
+      if (elem) {
+        elem.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  };
+
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-background/80 backdrop-blur-lg shadow-lg border-b border-white/10' : 'bg-transparent py-2'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <motion.a 
             href="#home" 
+            onClick={(e) => handleNavClick(e, '#home')}
             className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-300 tracking-tight"
             whileHover={{ scale: 1.02 }}
           >
@@ -37,6 +52,7 @@ const Navbar = () => {
               <a 
                 key={link.name} 
                 href={link.href} 
+                onClick={(e) => handleNavClick(e, link.href)}
                 className="text-gray-300 hover:text-white px-4 py-2 rounded-full hover:bg-white/5 transition-all duration-300 font-medium text-sm"
               >
                 {link.name}
@@ -46,9 +62,10 @@ const Navbar = () => {
 
           <button 
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-white p-2 rounded-md hover:bg-white/10 transition-colors"
+            className="md:hidden text-white p-3 -mr-3 rounded-md hover:bg-white/10 transition-colors"
+            aria-label="Toggle menu"
           >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
+            {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
       </div>
@@ -59,15 +76,15 @@ const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-background/95 backdrop-blur-xl border-t border-white/10"
+            className="md:hidden bg-background/95 backdrop-blur-xl border-t border-white/10 overflow-hidden"
           >
             <div className="px-4 py-4 space-y-2">
               {links.map((link) => (
                 <a 
                   key={link.name} 
                   href={link.href} 
-                  onClick={() => setIsOpen(false)}
-                  className="block text-gray-300 hover:text-white hover:bg-white/5 rounded-lg px-4 transition-colors py-3 font-medium"
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className="block text-gray-300 hover:text-white hover:bg-white/5 rounded-lg px-4 transition-colors py-4 font-medium text-lg"
                 >
                   {link.name}
                 </a>

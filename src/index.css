@@ -1,22 +1,32 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
+/* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-@layer base {
-  body {
-    @apply bg-background text-white antialiased selection:bg-primary/30;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  }
+/* Base styles (inlined to avoid editor diagnostics for Tailwind at-rules) */
+body {
+  background-color: #0f172a; /* theme colors.background */
+  color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* selection variant replacement */
+::selection {
+  background-color: rgba(59, 130, 246, 0.3); /* primary 3b82f6 @ 30% */
 }
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 /* Custom Scrollbar */
@@ -25,16 +35,16 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: theme('colors.background');
+  background: #0f172a; /* theme colors.background */
 }
 
 ::-webkit-scrollbar-thumb {
-  background: theme('colors.slate.800');
+  background: #1e293b; /* theme colors.slate.800 */
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: theme('colors.primary.DEFAULT');
+  background: #3b82f6; /* theme colors.primary.DEFAULT */
 }
 
 /* Ensure smooth interactions */
@@ -45,7 +55,7 @@ html {
 /* Premium grid pattern for SaaS background styling */
 .bg-grid-pattern {
   background-size: 60px 60px;
-  background-image: 
+  background-image:
     linear-gradient(to right, rgba(148, 163, 184, 0.04) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(148, 163, 184, 0.04) 1px, transparent 1px);
   mask-image: radial-gradient(circle at center, black 40%, transparent 90%);
