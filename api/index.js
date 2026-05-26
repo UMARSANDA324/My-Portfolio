@@ -21,6 +21,78 @@ process.on('uncaughtException', (err) => {
   console.error('[Backend] Uncaught Exception:', err);
 });
 
+// Helper to send consistent JSON responses
+const sendJson = (res, payload, status = 200) => {
+  try {
+    return res.status(status).json(payload);
+  } catch (e) {
+    console.error('[Backend] Failed to send JSON response', e);
+    try { res.status(500).json({ success: false, message: 'Internal server error' }); } catch (__) {}
+  }
+};
+
+// Serverless contact endpoint that proxies to EmailJS REST API using server-side env vars
+app.post('/api/contact/send', async (req, res) => {
+  try {
+    const { from_name, from_email, message, to_name, reply_to } = req.body || {};
+
+    if (!from_name || !from_email || !message) {
+      return sendJson(res, { success: false, message: 'Missing required fields' }, 400);
+    }
+
+    const serviceId = process.env.EMAILJS_CONTACT_SERVICE_ID || process.env.VITE_EMAILJS_CONTACT_SERVICE_ID;
+    const templateId = process.env.EMAILJS_CONTACT_TEMPLATE_ID || process.env.VITE_EMAILJS_CONTACT_TEMPLATE_ID;
+    const publicKey = process.env.EMAILJS_CONTACT_PUBLIC_KEY || process.env.VITE_EMAILJS_CONTACT_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      console.error('[Backend] Contact send attempted but EmailJS server keys are not configured.');
+      return sendJson(res, { success: false, message: 'Email service is not configured on the server' }, 503);
+    }
+
+    const payload = {
+      service_id: serviceId,
+      template_id: templateId,
+      user_id: publicKey,
+      template_params: {
+        from_name,
+        from_email,
+        to_name: to_name || 'Umar',
+        reply_to: reply_to || from_email,
+        message
+      }
+    };
+
+    // Call EmailJS REST API with a timeout
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 12000);
+
+    const resp = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeout);
+
+    if (!resp.ok) {
+      let text = '';
+      try { text = await resp.text(); } catch (e) { text = String(e); }
+      console.error('[Backend] EmailJS REST API returned non-OK:', resp.status, text);
+      return sendJson(res, { success: false, message: 'Failed to send email' }, 502);
+    }
+
+    return sendJson(res, { success: true, message: "Message sent" });
+  } catch (err) {
+    if (err.name === 'AbortError') {
+      console.error('[Backend] EmailJS request timed out');
+      return sendJson(res, { success: false, message: 'Email provider timed out' }, 504);
+    }
+    console.error('[Backend] Unhandled error in /api/contact/send', err);
+    return sendJson(res, { success: false, message: 'AI request failed' }, 500);
+  }
+});
+
 const app = express();
 const port = process.env.PORT || 5000;
 

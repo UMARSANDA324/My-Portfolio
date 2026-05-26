@@ -29,9 +29,22 @@ const Contact = () => {
     setIsSubmitting(true);
     setSubmitError(false);
     if (!isEmailConfigured) {
-      console.warn('Contact form blocked: EmailJS credentials not configured.');
-      setSubmitError(true);
-      setIsSubmitting(false);
+      // Fallback: open user's mail client with prefilled content instead of blocking the UI
+      try {
+        const subject = encodeURIComponent(`Contact from portfolio: ${formData.name || 'Website visitor'}`);
+        const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`);
+        const mailto = `mailto:um218194@gmail.com?subject=${subject}&body=${body}`;
+        window.location.href = mailto;
+        setSubmitSuccess(true);
+        setFormData({ name: '', email: '', message: '' });
+      } catch (err) {
+        console.error('Failed to open mail client fallback', err);
+        setSubmitError(true);
+      } finally {
+        setIsSubmitting(false);
+        setTimeout(() => setSubmitSuccess(false), 5000);
+        setTimeout(() => setSubmitError(false), 5000);
+      }
       return;
     }
     
