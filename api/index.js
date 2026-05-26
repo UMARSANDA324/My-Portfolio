@@ -31,6 +31,14 @@ const sendJson = (res, payload, status = 200) => {
   }
 };
 
+// NOTE: contact endpoint is defined after app initialization to avoid runtime errors
+
+const app = express();
+const port = process.env.PORT || 5000;
+
+app.use(cors());
+app.use(express.json());
+
 // Serverless contact endpoint that proxies to EmailJS REST API using server-side env vars
 app.post('/api/contact/send', async (req, res) => {
   try {
@@ -82,9 +90,9 @@ app.post('/api/contact/send', async (req, res) => {
       return sendJson(res, { success: false, message: 'Failed to send email' }, 502);
     }
 
-    return sendJson(res, { success: true, message: "Message sent" });
+    return sendJson(res, { success: true, message: 'Message sent' });
   } catch (err) {
-    if (err.name === 'AbortError') {
+    if (err && err.name === 'AbortError') {
       console.error('[Backend] EmailJS request timed out');
       return sendJson(res, { success: false, message: 'Email provider timed out' }, 504);
     }
@@ -92,12 +100,6 @@ app.post('/api/contact/send', async (req, res) => {
     return sendJson(res, { success: false, message: 'AI request failed' }, 500);
   }
 });
-
-const app = express();
-const port = process.env.PORT || 5000;
-
-app.use(cors());
-app.use(express.json());
 
 const SYSTEM_INSTRUCTION = `You are the AI portfolio concierge/assistant for Umar Muhammad Muhammad, a professional Full Stack Developer.
 Your goal is to answer questions about Umar sanda, his skills, his projects, his experience, and his services, and help users get in touch with him.
@@ -262,6 +264,21 @@ app.post('/api/ai/chat', async (req, res) => {
     console.error('[Backend] Unhandled exception in /api/ai/chat:', err);
     try { res.status(500).json({ success: false, message: 'AI request failed' }); } catch (e) {}
   }
+});
+
+// Catch-all 404 for API routes (return JSON)
+app.use((req, res, next) => {
+  if (req.path.startsWith('/api/')) {
+    return sendJson(res, { success: false, message: 'Not found' }, 404);
+  }
+  next();
+});
+
+// Express error handler - always returns JSON
+app.use((err, req, res, next) => {
+  console.error('[Backend] Express error handler caught:', err);
+  const status = err && err.status ? err.status : 500;
+  return sendJson(res, { success: false, message: err && err.message ? err.message : 'Internal server error' }, status);
 });
 
 if (process.env.NODE_ENV !== 'production') {
