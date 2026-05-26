@@ -35,6 +35,29 @@ async function sendEmail({ serviceId, templateId, templateParams = {}, publicKey
  * Strictly uses contact-scoped environment variables.
  */
 export async function sendContactEmail(templateParams) {
+  // Prefer serverless endpoint (keeps keys secret). If server endpoint is not available,
+  // fall back to client-side EmailJS if Vite env vars are present.
+  try {
+    const resp = await fetch('/api/contact/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(templateParams),
+    });
+
+    // Try to parse safe JSON
+    const text = await resp.text();
+    if (!text) throw new Error('Empty response from server');
+    let data = null;
+    try { data = JSON.parse(text); } catch (e) { throw new Error('Invalid JSON from server'); }
+
+    if (data && data.success) return data;
+
+    console.warn('Serverless send failed or returned error, falling back to client EmailJS:', data && data.message);
+  } catch (err) {
+    console.warn('Serverless contact send unavailable or failed, will attempt client-side fallback:', err.message || err);
+  }
+
+  // Client-side fallback using EmailJS browser SDK
   const serviceId = import.meta.env.VITE_EMAILJS_CONTACT_SERVICE_ID;
   const templateId = import.meta.env.VITE_EMAILJS_CONTACT_TEMPLATE_ID;
   const publicKey = import.meta.env.VITE_EMAILJS_CONTACT_PUBLIC_KEY;
